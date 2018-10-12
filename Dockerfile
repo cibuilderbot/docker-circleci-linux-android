@@ -59,15 +59,14 @@ ENV PATH $ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$PATH
 # Add rust (experimental)
 ADD https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init /dist/rustup-init
 RUN chmod +x /dist/rustup-init && \
-    /dist/rustup-init -y --default-toolchain nightly
+    /dist/rustup-init -y --default-toolchain nightly && \
+    ~/.cargo/bin/rustup self update && \
+    ~/.cargo/bin/rustup update && \
+    ~/.cargo/bin/rustup toolchain add stable && \
+    ~/.cargo/bin/rustup target add armv7-linux-androideabi aarch64-linux-android wasm32-unknown-unknown && \
+    ~/.cargo/bin/rustup component add clippy-preview llvm-tools-preview rls-preview rust-analysis rustfmt-preview && \
+    ~/.cargo/bin/cargo install cargo-edit cargo-watch cargo-bloat cargo-asm cargo-expand cargo-graph cargo-vendor cargo-web cargo-release
 
 ENV PATH ~/.cargo/bin:$PATH
-
-RUN rustup self update && \
-    rustup update && \
-    rustup toolchain add stable && \
-    rustup target add armv7-linux-androideabi aarch64-linux-android wasm32-unknown-unknown && \
-    rustup component add clippy-preview llvm-tools-preview rls-preview rust-analysis rustfmt-preview && \
-    cargo install cargo-edit cargo-watch cargo-bloat cargo-asm cargo-expand cargo-graph cargo-vendor cargo-web cargo-release
 
 RUN rm -rf /dist
