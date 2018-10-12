@@ -34,11 +34,11 @@ RUN mkdir -p /usr/local/opt/android-sdk /usr/local/opt/android-ndk
 RUN unzip -q -o /dist/sdk-tools-linux-4333796.zip -d /usr/local/opt/android-sdk
 # Install SDK Build Tools 28.0.3 (September 2018)
 RUN yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager \
-    build-tools;28.0.3 \
-    extras;android;m2repository \
-    extras;google;m2repository \
-    platforms;android-26 \
-    platforms;android-28 \
+    "build-tools;28.0.3" \
+    "extras;android;m2repository" \
+    "extras;google;m2repository" \
+    "platforms;android-26" \
+    "platforms;android-28" \
     tools
 RUN yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager --licenses
 # Install NDK in temp directory first, then move to target location
