@@ -42,9 +42,9 @@ RUN apt-get update && \
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre \
     ANDROID_HOME=/usr/local/opt/android-sdk \
-    ANDROID_SDK_HOME=$ANDROID_HOME \
-    ANDROID_SDK_ROOT=$ANDROID_HOME \
+    ANDROID_SDK_HOME=/usr/local/opt/android-sdk \
+    ANDROID_SDK_ROOT=/usr/local/opt/android-sdk \
     ANDRDOID_NDK=/usr/local/opt/android-ndk \
-    ANDROID_NDK_HOME=$ANDROID_NDK \
-    ANDROID_NDK_ROOT=$ANDROID_NDK \
-    PATH=~/.cargo/bin:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_NDK:$ANDROID_NDK/build/tools:$ANDROID_NDK/simpleperf:$PATH
+    ANDROID_NDK_HOME=/usr/local/opt/android-ndk \
+    ANDROID_NDK_ROOT=/usr/local/opt/android-ndk \
+    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:$PATH
