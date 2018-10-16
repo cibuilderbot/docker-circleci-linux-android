@@ -8,7 +8,7 @@ FROM ubuntu:xenial-20180808
 # Install NDK in temp directory first, then move to target location
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget apt-utils software-properties-common && \
+    apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - && \
     apt-add-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
