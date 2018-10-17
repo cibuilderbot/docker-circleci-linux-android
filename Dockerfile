@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-add-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
     apt-get update && \
-    apt-get install -y git ssh tar gzip ca-certificates \
+    apt-get install -y git ssh tar gzip bzip2 xz ca-certificates \
         ninja-build fish maven unzip \
         clang-7 lldb-7 lld-7 libfuzzer-7-dev libc++-7-dev libc++abi-7-dev libomp-7-dev \
         gcc-7-multilib g++-7-multilib \
