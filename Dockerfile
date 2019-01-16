@@ -17,7 +17,7 @@ RUN apt-get update && \
         ninja-build fish maven unzip \
         clang-7 lldb-7 lld-7 libfuzzer-7-dev libc++-7-dev libc++abi-7-dev libomp-7-dev \
         gcc-7-multilib g++-7-multilib \
-        libssl-dev && \
+        libssl-dev ruby-full && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /dist && \
     wget -O /dist/cmake-3.13.0-rc1-Linux-x86_64.sh https://cmake.org/files/v3.13/cmake-3.13.0-rc1-Linux-x86_64.sh && \
