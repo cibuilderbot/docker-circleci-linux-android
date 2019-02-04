@@ -40,7 +40,7 @@ RUN apt-get update && \
     unzip -q -o /dist/android-ndk-r18-linux-x86_64.zip -d /tmp && \
     mv -f /tmp/android-ndk-r18/* /usr/local/opt/android-ndk/ && \
     rm -rf /tmp/android-ndk-r18/ && \
-    rm -rf /dist \
+    rm -rf /dist && \
     npm install -g tap-xunit
 
 ENV LANG=C.UTF-8 \
