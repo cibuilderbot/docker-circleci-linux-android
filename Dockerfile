@@ -27,7 +27,7 @@ RUN apt-get update && \
     wget -O /dist/sdk-tools-linux-4333796.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
     wget -O /dist/android-ndk-r18-linux-x86_64.zip https://dl.google.com/android/repository/android-ndk-r18-linux-x86_64.zip && \
     curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get -y install nodejs
+    apt-get -y install nodejs && \
     sh /dist/cmake-3.13.0-rc1-Linux-x86_64.sh --prefix=/usr/local --skip-license && \
     mkdir -p /usr/local/opt/android-sdk /usr/local/opt/android-ndk && \
     unzip -q -o /dist/sdk-tools-linux-4333796.zip -d /usr/local/opt/android-sdk && \
