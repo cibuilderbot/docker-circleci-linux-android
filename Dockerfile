@@ -19,13 +19,15 @@ RUN apt-get update && \
         gcc-7-multilib g++-7-multilib \
         libssl-dev \
         ruby-full build-essential patch ruby-dev zlib1g-dev liblzma-dev \
-        doxygen && \
+        doxygen gnupg && \
     gem install nokogiri && \    
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /dist && \
     wget -O /dist/cmake-3.13.0-rc1-Linux-x86_64.sh https://cmake.org/files/v3.13/cmake-3.13.0-rc1-Linux-x86_64.sh && \
     wget -O /dist/sdk-tools-linux-4333796.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
     wget -O /dist/android-ndk-r18-linux-x86_64.zip https://dl.google.com/android/repository/android-ndk-r18-linux-x86_64.zip && \
+    curl -sL https://deb.nodesource.com/setup_10.x && \
+    apt-get -y install nodejs
     sh /dist/cmake-3.13.0-rc1-Linux-x86_64.sh --prefix=/usr/local --skip-license && \
     mkdir -p /usr/local/opt/android-sdk /usr/local/opt/android-ndk && \
     unzip -q -o /dist/sdk-tools-linux-4333796.zip -d /usr/local/opt/android-sdk && \
