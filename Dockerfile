@@ -43,7 +43,7 @@ RUN apt-get update && \
     mv -f /tmp/android-ndk-r18/* /usr/local/opt/android-ndk/ && \
     rm -rf /tmp/android-ndk-r18/ && \
     rm -rf /dist && \
-    npm install -g tap-xunit
+    npm install -g tap-xunit-testname-ctrlchars
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre \
