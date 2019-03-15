@@ -16,10 +16,12 @@ RUN apt-get update && \
     apt-get install -y git ssh tar gzip bzip2 xz-utils ca-certificates \
         ninja-build fish maven unzip \
         clang-7 lldb-7 lld-7 libfuzzer-7-dev libc++-7-dev libc++abi-7-dev libomp-7-dev \
-        gcc-7-multilib g++-7-multilib \
+        gcc-8-multilib g++-8-multilib \
         libssl-dev \
         ruby-full build-essential patch ruby-dev zlib1g-dev liblzma-dev \
         doxygen gnupg && \
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8 && \
+    sudo update-alternatives --config gcc && \
     gem install nokogiri && \    
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /dist && \
