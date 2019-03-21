@@ -9,6 +9,9 @@ FROM ubuntu:xenial-20180808
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
+    apt-get install -y openjdk-8-jdk ant ca-certificates-java && \
+    update-ca-certificates -f && \
+    rm -rf /var/cache/oracle-jdk8-installer && \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - && \
     apt-add-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
@@ -52,7 +55,7 @@ RUN apt-get update && \
     npm install -g tap-xunit-testname-ctrlchars@2.3.1
 
 ENV LANG=C.UTF-8 \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     ANDROID_HOME=/usr/local/opt/android-sdk \
     ANDROID_SDK_HOME=/usr/local/opt/android-sdk \
     ANDROID_SDK_ROOT=/usr/local/opt/android-sdk \
