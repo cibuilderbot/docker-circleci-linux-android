@@ -4,6 +4,7 @@ FROM ubuntu:xenial-20180808
 # NDK r19b (February 2019)
 # Install modern cmake
 # Install Android SDK and NDK
+# Install GCloud CLI
 # Install SDK Build Tools 28.0.3 (September 2018)
 # Install NDK in temp directory first, then move to target location
 
