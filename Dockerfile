@@ -2,6 +2,7 @@ FROM ubuntu:xenial-20180808
 
 # SDK Tools 26.1.1 (September 2017)
 # NDK r19b (February 2019)
+# Maven 3.6.1
 # Install modern cmake
 # Install Android SDK and NDK
 # Install GCloud CLI
@@ -18,7 +19,7 @@ RUN apt-get update && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
     apt-get update && \
     apt-get install -y git ssh tar gzip bzip2 xz-utils ca-certificates \
-        ninja-build fish maven unzip \
+        ninja-build fish unzip \
         clang-7 lldb-7 lld-7 libfuzzer-7-dev libc++-7-dev libc++abi-7-dev libomp-7-dev \
         gcc-8-multilib g++-8-multilib \
         libssl-dev \
@@ -54,14 +55,19 @@ RUN apt-get update && \
     mv -f /tmp/android-ndk-r19b/* /usr/local/opt/android-ndk/ && \
     rm -rf /tmp/android-ndk-r19b/ && \
     rm -rf /dist && \
-    npm install -g tap-xunit-testname-ctrlchars@2.3.1
+    npm install -g tap-xunit-testname-ctrlchars@2.3.1 && \
+    wget https://www-us.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz -P /tmp && \
+    tar xf /tmp/apache-maven-*.tar.gz -C /usr/local/opt && \
+    ln -s /usr/local/opt/apache-maven-3.6.1 /usr/local/opt/maven
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    M2_HOME=/usr/local/opt/maven \
+    MAVEN_HOME=/usr/local/opt/maven \
     ANDROID_HOME=/usr/local/opt/android-sdk \
     ANDROID_SDK_HOME=/usr/local/opt/android-sdk \
     ANDROID_SDK_ROOT=/usr/local/opt/android-sdk \
     ANDRDOID_NDK=/usr/local/opt/android-ndk \
     ANDROID_NDK_HOME=/usr/local/opt/android-ndk \
     ANDROID_NDK_ROOT=/usr/local/opt/android-ndk \
-    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:$PATH
+    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:/usr/local/opt/maven/bin:$PATH
