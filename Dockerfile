@@ -24,7 +24,7 @@ RUN apt-get update && \
         gcc-8-multilib g++-8-multilib \
         libssl-dev \
         ruby-full build-essential patch ruby-dev zlib1g-dev liblzma-dev \
-        doxygen gnupg && \
+        doxygen gnupg golang && \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8 && \
     update-alternatives --config gcc && \
     echo "Fetching and installing latest GCloud as of 24th of April" && \
