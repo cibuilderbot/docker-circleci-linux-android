@@ -59,6 +59,9 @@ RUN apt-get update && \
     wget https://www-us.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz -P /tmp && \
     tar xf /tmp/apache-maven-*.tar.gz -C /usr/local/opt && \
     ln -s /usr/local/opt/apache-maven-3.6.1 /usr/local/opt/maven
+    mkdir -p ~/.gradle
+    echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+    echo "android.builder.sdkDownload=false" >> ~/.gradle/gradle.properties
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
