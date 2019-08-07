@@ -49,7 +49,8 @@ RUN apt-get update && \
         "extras;google;m2repository" \
         "platforms;android-26" \
         "platforms;android-28" \
-        tools && \
+        tools \
+        platform-tools && \
     yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager --licenses && \
     unzip -q -o /dist/android-ndk-r19b-linux-x86_64.zip -d /tmp && \
     mv -f /tmp/android-ndk-r19b/* /usr/local/opt/android-ndk/ && \
