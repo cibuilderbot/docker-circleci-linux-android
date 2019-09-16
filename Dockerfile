@@ -16,6 +16,7 @@ RUN apt-get update && \
     rm -rf /var/cache/oracle-jdk8-installer && \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - && \
     apt-add-repository -y ppa:ubuntu-toolchain-r/test && \
+    apt-add-repository -y ppa:git-core/ppa && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
     apt-get update && \
     apt-get install -y git ssh tar gzip bzip2 xz-utils ca-certificates \
