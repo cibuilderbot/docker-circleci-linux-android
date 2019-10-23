@@ -63,7 +63,10 @@ RUN apt-get update && \
     ln -s /usr/local/opt/apache-maven-3.6.1 /usr/local/opt/maven && \
     mkdir -p ~/.gradle && \
     echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties && \
-    echo "android.builder.sdkDownload=false" >> ~/.gradle/gradle.properties
+    echo "android.builder.sdkDownload=false" >> ~/.gradle/gradle.properties && \
+    wget 'https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz' -P /tmp && \
+    tar xf /tmp/gcc-arm-*.tar.xz -C /usr/local/opt && \
+    ln -s /usr/local/opt/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf /usr/local/opt/gcc-arm
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
@@ -75,4 +78,4 @@ ENV LANG=C.UTF-8 \
     ANDRDOID_NDK=/usr/local/opt/android-ndk \
     ANDROID_NDK_HOME=/usr/local/opt/android-ndk \
     ANDROID_NDK_ROOT=/usr/local/opt/android-ndk \
-    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:/usr/local/opt/maven/bin:$PATH
+    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
