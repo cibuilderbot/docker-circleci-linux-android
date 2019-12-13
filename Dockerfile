@@ -16,17 +16,20 @@ RUN apt-get update && \
     rm -rf /var/cache/oracle-jdk8-installer && \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - && \
     apt-add-repository -y ppa:ubuntu-toolchain-r/test && \
+    apt-add-repository -y ppa:git-core/ppa && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
+    apt-add-repository -y ppa:brightbox/ruby-ng && \
     apt-get update && \
     apt-get install -y git ssh tar gzip bzip2 xz-utils ca-certificates \
         ninja-build fish unzip \
         clang-7 lldb-7 lld-7 libfuzzer-7-dev libc++-7-dev libc++abi-7-dev libomp-7-dev \
         gcc-8-multilib g++-8-multilib \
         libssl-dev \
-        ruby-full build-essential patch ruby-dev zlib1g-dev liblzma-dev \
-        doxygen gnupg && \
+        ruby2.6 ruby2.6-dev ruby-switch build-essential patch zlib1g-dev liblzma-dev \
+        doxygen gnupg golang && \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8 && \
     update-alternatives --config gcc && \
+    ruby-switch --set ruby2.6 && \
     echo "Fetching and installing latest GCloud as of 24th of April" && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
@@ -49,7 +52,8 @@ RUN apt-get update && \
         "extras;google;m2repository" \
         "platforms;android-26" \
         "platforms;android-28" \
-        tools && \
+        tools \
+        platform-tools && \
     yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager --licenses && \
     unzip -q -o /dist/android-ndk-r19b-linux-x86_64.zip -d /tmp && \
     mv -f /tmp/android-ndk-r19b/* /usr/local/opt/android-ndk/ && \
@@ -58,7 +62,13 @@ RUN apt-get update && \
     npm install -g tap-xunit-testname-ctrlchars@2.3.1 && \
     wget https://www-us.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.tar.gz -P /tmp && \
     tar xf /tmp/apache-maven-*.tar.gz -C /usr/local/opt && \
-    ln -s /usr/local/opt/apache-maven-3.6.1 /usr/local/opt/maven
+    ln -s /usr/local/opt/apache-maven-3.6.1 /usr/local/opt/maven && \
+    mkdir -p ~/.gradle && \
+    echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties && \
+    echo "android.builder.sdkDownload=false" >> ~/.gradle/gradle.properties && \
+    wget 'https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz' -P /tmp && \
+    tar xf /tmp/gcc-arm-*.tar.xz -C /usr/local/opt && \
+    ln -s /usr/local/opt/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf /usr/local/opt/gcc-arm
 
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
@@ -70,4 +80,4 @@ ENV LANG=C.UTF-8 \
     ANDRDOID_NDK=/usr/local/opt/android-ndk \
     ANDROID_NDK_HOME=/usr/local/opt/android-ndk \
     ANDROID_NDK_ROOT=/usr/local/opt/android-ndk \
-    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:/usr/local/opt/maven/bin:$PATH
+    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-ndk:/usr/local/opt/android-ndk/build/tools:/usr/local/opt/android-ndk/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
