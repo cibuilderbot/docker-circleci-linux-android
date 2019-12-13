@@ -18,16 +18,18 @@ RUN apt-get update && \
     apt-add-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-add-repository -y ppa:git-core/ppa && \
     apt-add-repository -y 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main' && \
+    apt-add-repository -y ppa:brightbox/ruby-ng && \
     apt-get update && \
     apt-get install -y git ssh tar gzip bzip2 xz-utils ca-certificates \
         ninja-build fish unzip \
         clang-7 lldb-7 lld-7 libfuzzer-7-dev libc++-7-dev libc++abi-7-dev libomp-7-dev \
         gcc-8-multilib g++-8-multilib \
         libssl-dev \
-        ruby-full build-essential patch ruby-dev zlib1g-dev liblzma-dev \
+        ruby2.6 ruby2.6-dev ruby-switch build-essential patch zlib1g-dev liblzma-dev \
         doxygen gnupg golang && \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8 && \
     update-alternatives --config gcc && \
+    ruby-switch --set ruby2.6 && \
     echo "Fetching and installing latest GCloud as of 24th of April" && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
