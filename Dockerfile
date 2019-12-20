@@ -48,10 +48,11 @@ RUN apt-get update && \
     unzip -q -o /dist/sdk-tools-linux-4333796.zip -d /usr/local/opt/android-sdk && \
     yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager \
         "build-tools;28.0.3" \
+        "build-tools;29.0.2" \
         "extras;android;m2repository" \
         "extras;google;m2repository" \
-        "platforms;android-26" \
         "platforms;android-28" \
+        "platforms;android-29" \
         tools \
         platform-tools && \
     yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager --licenses && \
