@@ -10,6 +10,7 @@ FROM ubuntu:xenial-20180808
 # Install NDK in temp directory first, then move to target location
 
 RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
     apt-get install -y openjdk-8-jdk ant ca-certificates-java && \
     update-ca-certificates -f && \
