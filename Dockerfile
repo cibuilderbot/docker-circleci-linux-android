@@ -8,18 +8,21 @@ FROM ubuntu:xenial-20180808
 # Install GCloud CLI
 # Install SDK Build Tools 30.0.2
 
+ARG ndkVersion=21.3.6528147 \
+    sdkRoot=/usr/local/opt/android-sdk \
+    ndkRoot=$sdkRoot/ndk/$ndkVersion
+    
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     M2_HOME=/usr/local/opt/maven \
     MAVEN_HOME=/usr/local/opt/maven \
-    ANDROID_HOME=/usr/local/opt/android-sdk \
-    ANDROID_SDK_HOME=$ANDROID_HOME \
-    ANDROID_SDK_ROOT=$ANDROID_HOME \
-    ANDRDOID_NDK_VERSION=21.3.6528147 \
-    ANDRDOID_NDK=/usr/local/opt/android-sdk/ndk/$ANDRDOID_NDK_VERSION \
-    ANDROID_NDK_HOME=$ANDRDOID_NDK \
-    ANDROID_NDK_ROOT=$ANDRDOID_NDK \
-    PATH=~/.cargo/bin:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDRDOID_NDK:$ANDRDOID_NDK/build/tools:$ANDRDOID_NDK/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
+    ANDROID_HOME=$sdkRoot \
+    ANDROID_SDK_HOME=$sdkRoot \
+    ANDROID_SDK_ROOT=$sdkRoot \
+    ANDROID_NDK=$ndkRoot \
+    ANDROID_NDK_HOME=$ndkRoot \
+    ANDROID_NDK_ROOT=$ndkRoot \
+    PATH=~/.cargo/bin:$sdkRoot/tools:$sdkRoot/tools/bin:$ndkRoot:$ndkRoot/build/tools:$ndkRoot/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
@@ -57,20 +60,20 @@ RUN apt-get update && \
     sh /dist/cmake-3.17.0-Linux-x86_64.sh --prefix=/usr/local --skip-license && \
     wget -O /dist/commandlinetools-linux-6858069.zip https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip && \
     unzip -q -o /dist/commandlinetools-linux-6858069.zip -d /dist && \
-    mkdir -p $ANDROID_HOME/cmdline-tools/latest && \
-    mv /dist/cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest && \
+    mkdir -p $sdkRoot/cmdline-tools/latest && \
+    mv /dist/cmdline-tools/* $sdkRoot/cmdline-tools/latest && \
     rm -rf /dist && \
-    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+    yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager \
         "build-tools;29.0.2" \
         "build-tools;30.0.2" \
         "extras;android;m2repository" \
         "extras;google;m2repository" \
         "platforms;android-29" \
         "platforms;android-30" \
-        "ndk;21.3.6528147" \
+        "ndk;$ndkVersion" \
         tools \
         platform-tools && \
-    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses && \
+    yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager --licenses && \
     npm install -g tap-xunit-testname-ctrlchars@2.3.1 && \
     wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp && \
     tar xf /tmp/apache-maven-*.tar.gz -C /usr/local/opt && \
@@ -78,7 +81,7 @@ RUN apt-get update && \
     mkdir -p ~/.gradle && \
     echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties && \
     echo "android.builder.sdkDownload=false" >> ~/.gradle/gradle.properties && \
-    echo "androidNdkVersion=$ANDRDOID_NDK_VERSION" >> ~/.gradle/gradle.properties && \
+    echo "androidNdkVersion=$ndkVersion" >> ~/.gradle/gradle.properties && \
     wget 'https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz' -P /tmp && \
     tar xf /tmp/gcc-arm-*.tar.xz -C /usr/local/opt && \
     ln -s /usr/local/opt/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf /usr/local/opt/gcc-arm
