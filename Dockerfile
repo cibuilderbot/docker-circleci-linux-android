@@ -8,6 +8,19 @@ FROM ubuntu:xenial-20180808
 # Install GCloud CLI
 # Install SDK Build Tools 30.0.2
 
+ENV LANG=C.UTF-8 \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    M2_HOME=/usr/local/opt/maven \
+    MAVEN_HOME=/usr/local/opt/maven \
+    ANDROID_HOME=/usr/local/opt/android-sdk \
+    ANDROID_SDK_HOME=$ANDROID_HOME \
+    ANDROID_SDK_ROOT=$ANDROID_HOME \
+    ANDRDOID_NDK_VERSION=21.3.6528147 \
+    ANDRDOID_NDK=/usr/local/opt/android-sdk/ndk/$ANDRDOID_NDK_VERSION \
+    ANDROID_NDK_HOME=$ANDRDOID_NDK \
+    ANDROID_NDK_ROOT=$ANDRDOID_NDK \
+    PATH=~/.cargo/bin:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDRDOID_NDK:$ANDRDOID_NDK/build/tools:$ANDRDOID_NDK/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
+
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
@@ -39,13 +52,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /dist && \
     wget -O /dist/cmake-3.17.0-Linux-x86_64.sh https://cmake.org/files/v3.17/cmake-3.17.0-Linux-x86_64.sh && \
-    wget -O /dist/commandlinetools-linux-6858069.zip https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip && \
     curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get -y install nodejs && \
     sh /dist/cmake-3.17.0-Linux-x86_64.sh --prefix=/usr/local --skip-license && \
+    wget -O /dist/commandlinetools-linux-6858069.zip https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip && \
     unzip -q -o /dist/commandlinetools-linux-6858069.zip -d /dist && \
-    mv /dist/cmdline-tools /usr/local/opt/android-sdk && \
-    yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager \
+    mkdir -p $ANDROID_HOME/cmdline-tools/latest && \
+    mv /dist/cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest && \
+    rm -rf /dist && \
+    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
         "build-tools;29.0.2" \
         "build-tools;30.0.2" \
         "extras;android;m2repository" \
@@ -55,8 +70,7 @@ RUN apt-get update && \
         "ndk;21.3.6528147" \
         tools \
         platform-tools && \
-    yes | /usr/local/opt/android-sdk/tools/bin/sdkmanager --licenses && \
-    rm -rf /dist && \
+    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses && \
     npm install -g tap-xunit-testname-ctrlchars@2.3.1 && \
     wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp && \
     tar xf /tmp/apache-maven-*.tar.gz -C /usr/local/opt && \
@@ -64,19 +78,7 @@ RUN apt-get update && \
     mkdir -p ~/.gradle && \
     echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties && \
     echo "android.builder.sdkDownload=false" >> ~/.gradle/gradle.properties && \
-    echo "androidNdkVersion=21.3.6528147" >> ~/.gradle/gradle.properties && \
+    echo "androidNdkVersion=$ANDRDOID_NDK_VERSION" >> ~/.gradle/gradle.properties && \
     wget 'https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz' -P /tmp && \
     tar xf /tmp/gcc-arm-*.tar.xz -C /usr/local/opt && \
     ln -s /usr/local/opt/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf /usr/local/opt/gcc-arm
-
-ENV LANG=C.UTF-8 \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    M2_HOME=/usr/local/opt/maven \
-    MAVEN_HOME=/usr/local/opt/maven \
-    ANDROID_HOME=/usr/local/opt/android-sdk \
-    ANDROID_SDK_HOME=/usr/local/opt/android-sdk \
-    ANDROID_SDK_ROOT=/usr/local/opt/android-sdk \
-    ANDRDOID_NDK=/usr/local/opt/android-sdk/ndk/21.3.6528147 \
-    ANDROID_NDK_HOME=/usr/local/opt/android-sdk/ndk/21.3.6528147 \
-    ANDROID_NDK_ROOT=/usr/local/opt/android-sdk/ndk/21.3.6528147 \
-    PATH=~/.cargo/bin:/usr/local/opt/android-sdk/tools:/usr/local/opt/android-sdk/tools/bin:/usr/local/opt/android-sdk/ndk/21.3.6528147:/usr/local/opt/android-sdk/ndk/21.3.6528147/build/tools:/usr/local/opt/android-sdk/ndk/21.3.6528147/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
