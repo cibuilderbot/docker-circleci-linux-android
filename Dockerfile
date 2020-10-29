@@ -8,9 +8,9 @@ FROM ubuntu:xenial-20180808
 # Install GCloud CLI
 # Install SDK Build Tools 30.0.2
 
-ARG ndkVersion=21.3.6528147 \
-    sdkRoot=/usr/local/opt/android-sdk \
-    ndkRoot=$sdkRoot/ndk/$ndkVersion
+ARG ndkVersion=21.3.6528147
+ARG sdkRoot=/usr/local/opt/android-sdk
+ARG ndkRoot=$sdkRoot/ndk/$ndkVersion
     
 ENV LANG=C.UTF-8 \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
