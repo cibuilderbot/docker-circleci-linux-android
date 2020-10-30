@@ -1,14 +1,14 @@
 FROM ubuntu:xenial-20180808
 
 # Android SDK Command-line Tools 3.0
-# NDK r21d
+# NDK r21b
 # Maven 3.6.1
 # Install modern cmake
 # Install Android SDK and NDK
 # Install GCloud CLI
 # Install SDK Build Tools 30.0.2
 
-ARG ndkVersion=21.3.6528147
+ARG ndkVersion=21.1.6352462
 ARG sdkRoot=/usr/local/opt/android-sdk
 ARG ndkRoot=$sdkRoot/ndk/$ndkVersion
     
@@ -64,6 +64,7 @@ RUN apt-get update && \
     mv /dist/cmdline-tools/* $sdkRoot/cmdline-tools/latest && \
     rm -rf /dist && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager \
+        "build-tools;28.0.2" \
         "build-tools;29.0.2" \
         "build-tools;30.0.2" \
         "extras;android;m2repository" \
@@ -71,8 +72,7 @@ RUN apt-get update && \
         "platforms;android-29" \
         "platforms;android-30" \
         "ndk;$ndkVersion" \
-        tools \
-        platform-tools && \
+        tools && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager --licenses && \
     npm install -g tap-xunit-testname-ctrlchars@2.3.1 && \
     wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp && \
