@@ -6,14 +6,14 @@ FROM ubuntu:xenial-20180808
 # Install modern cmake
 # Install Android SDK and NDK
 # Install GCloud CLI
-# Install SDK Build Tools 30.0.2
+# Install SDK Build Tools 31.0.0
 
 ARG ndkVersion=21.1.6352462
 ARG sdkRoot=/usr/local/opt/android-sdk
 ARG ndkRoot=$sdkRoot/ndk/$ndkVersion
     
 ENV LANG=C.UTF-8 \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
     M2_HOME=/usr/local/opt/maven \
     MAVEN_HOME=/usr/local/opt/maven \
     ANDROID_HOME=$sdkRoot \
@@ -27,7 +27,7 @@ ENV LANG=C.UTF-8 \
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
-    apt-get install -y openjdk-8-jdk ant ca-certificates-java && \
+    apt-get install -y openjdk-11-jdk ant ca-certificates-java && \
     update-ca-certificates -f && \
     rm -rf /var/cache/oracle-jdk8-installer && \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - && \
@@ -64,13 +64,12 @@ RUN apt-get update && \
     mv /dist/cmdline-tools/* $sdkRoot/cmdline-tools/latest && \
     rm -rf /dist && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager \
-        "build-tools;28.0.2" \
-        "build-tools;29.0.2" \
         "build-tools;30.0.2" \
+        "build-tools;31.0.0" \
         "extras;android;m2repository" \
         "extras;google;m2repository" \
-        "platforms;android-29" \
         "platforms;android-30" \
+        "platforms;android-31" \
         "ndk;$ndkVersion" \
         tools && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager --licenses && \
