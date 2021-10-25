@@ -24,8 +24,7 @@ ENV LANG=C.UTF-8 \
     ANDROID_NDK_ROOT=$ndkRoot \
     PATH=~/.cargo/bin:$sdkRoot/tools:$sdkRoot/tools/bin:$ndkRoot:$ndkRoot/build/tools:$ndkRoot/simpleperf:/usr/local/opt/maven/bin:/usr/local/opt/gcc-arm/bin:$PATH
 
-RUN 
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
     apt-add-repository -y ppa:openjdk-r/ppa && \
