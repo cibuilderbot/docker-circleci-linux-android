@@ -77,7 +77,7 @@ RUN apt-get update && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager --licenses && \
     npm install -g appcenter-cli && \
     npm install -g tap-xunit-testname-ctrlchars@2.3.1 && \
-    wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp && \
+    wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp && \
     tar xf /tmp/apache-maven-*.tar.gz -C /usr/local/opt && \
     ln -s /usr/local/opt/apache-maven-3.6.3 /usr/local/opt/maven && \
     mkdir -p ~/.gradle && \
