@@ -68,6 +68,7 @@ RUN apt-get update && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager \
         "build-tools;30.0.2" \
         "build-tools;31.0.0" \
+        "build-tools;32.0.0" \
         "extras;android;m2repository" \
         "extras;google;m2repository" \
         "platforms;android-30" \
