@@ -13,7 +13,7 @@ ARG sdkRoot=/usr/local/opt/android-sdk
 ARG ndkRoot=$sdkRoot/ndk/$ndkVersion
     
 ENV LANG=C.UTF-8 \
-    JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
+    JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
     M2_HOME=/usr/local/opt/maven \
     MAVEN_HOME=/usr/local/opt/maven \
     ANDROID_HOME=$sdkRoot \
@@ -29,7 +29,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends wget curl apt-utils software-properties-common && \
     apt-add-repository -y ppa:openjdk-r/ppa && \
     apt-get update && \
-    apt-get install -y openjdk-11-jdk ant ca-certificates-java && \
+    apt-get install -y openjdk-17-jdk ant ca-certificates-java && \
     update-ca-certificates -f && \
     rm -rf /var/cache/oracle-jdk8-installer && \
     wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - && \
@@ -66,12 +66,9 @@ RUN apt-get update && \
     mv /dist/cmdline-tools/* $sdkRoot/cmdline-tools/latest && \
     rm -rf /dist && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager \
-        "build-tools;31.0.0" \
-        "build-tools;32.0.0" \
         "build-tools;33.0.0" \
         "extras;android;m2repository" \
         "extras;google;m2repository" \
-        "platforms;android-31" \
         "platforms;android-33" \
         "ndk;$ndkVersion" \
         tools && \
