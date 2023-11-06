@@ -68,9 +68,11 @@ RUN apt-get update && \
     rm -rf /dist && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager \
         "build-tools;33.0.0" \
+        "build-tools;33.0.1" \
         "extras;android;m2repository" \
         "extras;google;m2repository" \
         "platforms;android-33" \
+        "platforms;android-34" \
         "ndk;$ndkVersion" \
         tools && \
     yes | $sdkRoot/cmdline-tools/latest/bin/sdkmanager --licenses && \
