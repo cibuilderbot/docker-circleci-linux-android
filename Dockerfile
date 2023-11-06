@@ -54,7 +54,6 @@ RUN apt-get update && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     apt-get update -y && apt-get install google-cloud-sdk -y && \
     gem install nokogiri -v 1.13.10 && \
-    Y | gcloud components install beta && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /dist && \
     wget -O /dist/cmake-3.17.0-Linux-x86_64.sh https://cmake.org/files/v3.17/cmake-3.17.0-Linux-x86_64.sh && \
